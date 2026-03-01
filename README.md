@@ -9,7 +9,7 @@
 
 **[Українська версія (README_UA.md)](README_UA.md)** | **[Versión en español (README_ES.md)](README_ES.md)**
 
-A tool for extracting textures from **Xenus 2: White Gold** game cache files (`*.DT1`).
+A tool for extracting textures from **Xenus 2: White Gold**, **Boiling Point: Road to Hell**, and **The Precursors** game cache files (`*.DT1`).
 Saves decoded textures as `.dds`, `.tga`, `.png`, `.bmp`, or `.jpg` while preserving the original folder structure.
 
 ---
@@ -21,6 +21,8 @@ Saves decoded textures as `.dds`, `.tga`, `.png`, `.bmp`, or `.jpg` while preser
 - **VELoader.dll** from the **Steam release** of Xenus 2: White Gold — place it next to `xenus-dt1-decompiler.exe`
 
 > **Note:** `VELoader.dll` from pirated copies of the game will not work (error 1114). You must use the DLL from the legitimate Steam release.
+> 
+> **Boiling Point / The Precursors Compatibility:** This tool can also decompile textures from **Boiling Point: Road to Hell** (Xenus 1) and **The Precursors** (Предтечі). To process Boiling Point textures, you **must** use the `VELoader.dll` from **Xenus 2**, **The Precursors**, or the **Vital Engine 3 SDK**. The DLL from Boiling Point itself will not work.
 
 ---
 
