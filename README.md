@@ -36,7 +36,7 @@ To extract them, use **GrpUnpacker** — a tool that is typically included with 
 
 ## Installation
 
-1. Download the latest release archive from the [Releases](../../releases) page.
+1. Download the latest release archive from the [Releases](https://github.com/CodeNoob53/xenus-dt1-decompiler/releases) page.
 2. Extract the archive — it will create a `xenus-dt1-decompiler-vX.X.X` folder.
 3. Copy `VELoader.dll` from your game folder into that folder, or specify the path to it in the GUI.
 4. Run `xenus-dt1-decompiler.exe`.

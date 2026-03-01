@@ -38,7 +38,7 @@
 
 ## Встановлення
 
-1. Завантажте останній архів релізу зі сторінки [Releases](../../releases).
+1. Завантажте останній архів релізу зі сторінки [Releases](https://github.com/CodeNoob53/xenus-dt1-decompiler/releases).
 2. Розпакуйте архів — буде створено папку `xenus-dt1-decompiler-vX.X.X`.
 3. Скопіюйте `VELoader.dll` з папки гри в цю папку, або вкажіть шлях до неї в GUI.
 4. Запустіть `xenus-dt1-decompiler.exe`.
