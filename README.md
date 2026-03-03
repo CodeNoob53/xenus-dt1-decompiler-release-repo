@@ -100,7 +100,7 @@ Using `KURSOR_1_TGA.DT1` as an example:
 
 1. **Extract the original texture** using this decompiler tool in TGA or BMP format.
    > **Note:** the original format is hinted by the filename suffix — e.g. `_TGA` in `KURSOR_1_TGA.DT1` indicates TGA.
-2. **Edit or replace the TGA with your own texture.** Recommended maximum size is **1024×1024** pixels — the game handles this well, and larger sizes may exceed memory limits.
+2. **Edit or replace the TGA with your own texture.** The engine supports a maximum of **2048×2048** pixels — textures larger than that will not compile at all. Use 2048×2048 with caution (high memory usage); **1024×1024 is recommended** for stability.
 3. **Save the edited file as `.TGA`.** The decompiler already strips the engine suffix automatically — `KURSOR_1_TGA.DT1` is saved as `KURSOR_1.tga`, so use that name.
 4. **Delete** the original `.DT1` and any `.DT2`/`.DT3` files with the same base name from `CACHE\TEXTURES\HUD\`.
 5. **Place** your new `KURSOR_1.TGA` into `TEXTURES\HUD\` inside the game directory (create this folder — it does not exist by default):
