@@ -6,6 +6,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/CodeNoob53/xenus-dt1-decompiler/blob/main/LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-8.0-blueviolet.svg)](https://dotnet.microsoft.com/download/dotnet/8.0)
 [![Release](https://img.shields.io/github/v/release/CodeNoob53/xenus-dt1-decompiler)](../../releases/latest)
+[![Source Code](https://img.shields.io/badge/source_code-GitHub-181717.svg?logo=github)](https://github.com/CodeNoob53/xenus-dt1-decompiler)
 
 **[English version (README.md)](README.md)** | **[Версія українською (README_UA.md)](README_UA.md)**
 
@@ -21,8 +22,10 @@ Guarda las texturas decodificadas en formato `.dds`, `.tga`, `.png`, `.bmp` o `.
 - **VELoader.dll** de la **versión Steam** de Xenus 2: White Gold — colócalo junto a `xenus-dt1-decompiler.exe`
 
 > **Nota:** `VELoader.dll` de copias piratas del juego no funcionará (error 1114). Debes usar la DLL de la versión legítima de Steam.
-> 
+>
 > **Compatibilidad con Boiling Point y The Precursors:** Esta herramienta también puede decompilar texturas de **Boiling Point: Road to Hell** (Xenus 1) y **The Precursors**. Para procesar las texturas de Boiling Point, **debes** utilizar la `VELoader.dll` de **Xenus 2**, **The Precursors**, o del **Vital Engine 3 SDK**. La DLL original de Boiling Point no funcionará.
+
+> ⚠️ **Nota sobre alertas de antivirus:** Esta herramienta es de código abierto y segura. Algunos escáneres (como Malwarebytes) pueden marcarla como "Anómala" porque es un ejecutable sin firmar que usa Native Interop para comunicarse con `VELoader.dll` del juego. Puedes verificar el código fuente en [GitHub](https://github.com/CodeNoob53/xenus-dt1-decompiler).
 
 ---
 
@@ -60,6 +63,8 @@ Haz doble clic en `xenus-dt1-decompiler.exe` (sin argumentos).
    - **Auto** — detecta el formato real desde los magic bytes del archivo *(recomendado)*
    - **dds / tga / png / bmp / jpg** — convierte la textura al formato elegido
 5. Haz clic en **START DECOMPILE** y observa el progreso en la ventana de registro.
+
+![Interfaz de la aplicación](assets/img/GUI_interface.avif)
 
 ### Línea de Comandos
 
@@ -100,7 +105,22 @@ Usando `KURSOR_1_TGA.DT1` como ejemplo:
 
 1. **Extrae la textura original** con esta herramienta en formato TGA o BMP.
    > **Nota:** el formato original se puede deducir del sufijo del nombre de archivo — por ejemplo `_TGA` en `KURSOR_1_TGA.DT1` indica TGA.
-2. **Edita o reemplaza el TGA con tu propia textura.** El motor soporta un máximo de **2048×2048** píxeles — las texturas más grandes (4096×4096 y superiores) directamente no compilarán. El uso de 2048×2048 es posible pero con precaución (alto consumo de memoria); **se recomienda 1024×1024**.
+2. **Edita o reemplaza el TGA con tu propia textura.**
+   > **Nota sobre el tamaño de la textura:** Los elementos HUD, algunos sprites 2D LOD y los efectos de partículas se referencian mediante coordenadas de píxeles (`Position`, `Size`) codificadas en los archivos XML de diseño de la interfaz. Cambiar las dimensiones de la imagen desplazará esas coordenadas dentro de la textura. Si redimensionas intencionalmente una de estas texturas, también debes actualizar los valores `Position` y `Size` correspondientes en el archivo XML. **De lo contrario, mantén las dimensiones idénticas al original.**
+   >
+   > Ejemplo — fondo del compás en `UI\PC\Planet\Scheme.xml`, que referencia una región de 167×150 px en el offset (857, 290) dentro de `_hud.tga`:
+   > ```xml
+   > <Material MaterialID="_hud">
+   >     <Position x="857" y="290"/>
+   >     <Size x="167" y="150"/>
+   > </Material>
+   > ```
+   > Si escalas `_hud.tga` al doble, multiplica todos los valores de `Position` y `Size` por 2.
+   >
+   > ![Ejemplo de HUD roto al escalar la textura x2 sin actualizar las coordenadas XML](assets/img/hud_example.avif)
+   > *HUD con `_hud.tga` escalado al doble pero las coordenadas XML sin cambiar — los elementos están desalineados.*
+   >
+   > Para el resto de texturas, el motor admite hasta **2048×2048** píxeles (mayor tamaño no compilará); **se recomienda 1024×1024** para mayor estabilidad.
 3. **Guarda el archivo editado como `.TGA`.** El decompilador ya elimina automáticamente el sufijo del motor — `KURSOR_1_TGA.DT1` se guarda como `KURSOR_1.tga`, así que usa ese nombre.
 4. **Elimina** el `.DT1` original y cualquier archivo `.DT2`/`.DT3` con el mismo nombre base de `CACHE\TEXTURES\HUD\`.
 5. **Coloca** tu nuevo `KURSOR_1.TGA` en `TEXTURES\HUD\` dentro del directorio del juego (crea esta carpeta — no existe por defecto):

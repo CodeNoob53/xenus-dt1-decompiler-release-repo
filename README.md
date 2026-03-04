@@ -6,6 +6,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/CodeNoob53/xenus-dt1-decompiler/blob/main/LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-8.0-blueviolet.svg)](https://dotnet.microsoft.com/download/dotnet/8.0)
 [![Release](https://img.shields.io/github/v/release/CodeNoob53/xenus-dt1-decompiler)](../../releases/latest)
+[![Source Code](https://img.shields.io/badge/source_code-GitHub-181717.svg?logo=github)](https://github.com/CodeNoob53/xenus-dt1-decompiler)
 
 **[Українська версія (README_UA.md)](README_UA.md)** | **[Versión en español (README_ES.md)](README_ES.md)**
 
@@ -21,8 +22,10 @@ Saves decoded textures as `.dds`, `.tga`, `.png`, `.bmp`, or `.jpg` while preser
 - **VELoader.dll** from the **Steam release** of Xenus 2: White Gold — place it next to `xenus-dt1-decompiler.exe`
 
 > **Note:** `VELoader.dll` from pirated copies of the game will not work (error 1114). You must use the DLL from the legitimate Steam release.
-> 
+>
 > **Boiling Point / The Precursors Compatibility:** This tool can also decompile textures from **Boiling Point: Road to Hell** (Xenus 1) and **The Precursors** (Предтечі). To process Boiling Point textures, you **must** use the `VELoader.dll` from **Xenus 2**, **The Precursors**, or the **Vital Engine 3 SDK**. The DLL from Boiling Point itself will not work.
+
+> ⚠️ **Note on Antivirus Alerts:** This tool is open-source and safe. Some scanners (like Malwarebytes) may flag it as "Anomalous" because it is an unsigned executable that uses Native Interop to communicate with the game's `VELoader.dll`. You can verify the source code on [GitHub](https://github.com/CodeNoob53/xenus-dt1-decompiler).
 
 ---
 
@@ -60,6 +63,8 @@ Double-click `xenus-dt1-decompiler.exe` (no arguments).
    - **Auto** — detects the real format from the file's magic bytes *(recommended)*
    - **dds / tga / png / bmp / jpg** — converts the texture to the chosen format
 5. Click **START DECOMPILE** and watch the progress in the log window.
+
+![GUI interface](assets/img/GUI_interface.avif)
 
 ### Command Line
 
@@ -100,7 +105,22 @@ Using `KURSOR_1_TGA.DT1` as an example:
 
 1. **Extract the original texture** using this decompiler tool in TGA or BMP format.
    > **Note:** the original format is hinted by the filename suffix — e.g. `_TGA` in `KURSOR_1_TGA.DT1` indicates TGA.
-2. **Edit or replace the TGA with your own texture.** The engine supports a maximum of **2048×2048** pixels — textures larger than that will not compile at all. Use 2048×2048 with caution (high memory usage); **1024×1024 is recommended** for stability.
+2. **Edit or replace the TGA with your own texture.**
+   > **Note on texture size:** HUD elements, some 2D LOD sprites, and particle effects are referenced by pixel coordinates (`Position`, `Size`) hardcoded in the UI layout XML files. Changing the image dimensions will shift those coordinates out of alignment within the texture. If you intentionally resize such a texture, you must also update the corresponding `Position` and `Size` values in the relevant XML file. **Otherwise keep the image dimensions identical to the original.**
+   >
+   > Example — compass background in `UI\PC\Planet\Scheme.xml`, referencing a 167×150 region at pixel offset (857, 290) inside `_hud.tga`:
+   > ```xml
+   > <Material MaterialID="_hud">
+   >     <Position x="857" y="290"/>
+   >     <Size x="167" y="150"/>
+   > </Material>
+   > ```
+   > If you upscale `_hud.tga` 2×, multiply all `Position` and `Size` values by 2.
+   >
+   > ![Example of broken HUD when texture is upscaled 2× without updating XML coordinates](assets/img/hud_example.avif)
+   > *HUD with `_hud.tga` upscaled 2× but XML coordinates left unchanged — elements are misaligned.*
+   >
+   > For other textures, the engine supports up to **2048×2048** pixels (larger will not compile); **1024×1024 is recommended** for stability.
 3. **Save the edited file as `.TGA`.** The decompiler already strips the engine suffix automatically — `KURSOR_1_TGA.DT1` is saved as `KURSOR_1.tga`, so use that name.
 4. **Delete** the original `.DT1` and any `.DT2`/`.DT3` files with the same base name from `CACHE\TEXTURES\HUD\`.
 5. **Place** your new `KURSOR_1.TGA` into `TEXTURES\HUD\` inside the game directory (create this folder — it does not exist by default):
