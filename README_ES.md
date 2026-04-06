@@ -154,7 +154,7 @@ Para publicar texturas modificadas como mod, distribuye los archivos `.DT1` / `.
 
 - Todas las texturas del juego se almacenan internamente como **DDS** independientemente del sufijo en el nombre del archivo (`_TGA`, `_BMP`, etc.). La herramienta detecta el formato real automáticamente.
 - La conversión de formato (tga/png/etc.) es realizada por **[texconv](https://github.com/microsoft/DirectXTex)** (Microsoft DirectXTex, licencia MIT) — incluido en el archivo de la versión.
-- Las texturas de normal map tienen sus canales de píxeles reordenados a RGBA estándar al exportar. La herramienta identifica los normal maps leyendo los archivos `.MAT` de la carpeta `MATERIALS/` del juego (entradas `Texture1_BUMP:`). La carpeta `MATERIALS/` debe estar desempaquetada previamente de los archivos `.grp` con **GrpUnpacker**. Si no se encuentra, se usa el sufijo `_N`/`_N_` como alternativa.
+- Las texturas de normal map tienen sus canales de píxeles reordenados a RGBA estándar al exportar. La herramienta identifica los normal maps leyendo los archivos `.MAT` de la carpeta `MATERIALS/` del juego (entradas `Texture1_BUMP:`). Esto es importante porque no todas las texturas de normal map siguen una convención de nombres predecible — algunas tienen nombres arbitrarios sin el sufijo `_N`, por lo que la detección solo por nombre de archivo no es fiable. Para mejores resultados, desempaqueta `MATERIALS/` de los archivos `.grp` del juego con **GrpUnpacker** antes de ejecutar el decompilador. Si no se encuentra la carpeta, se usa el sufijo `_N`/`_N_` como alternativa, que puede omitir algunos normal maps.
 
 ---
 
