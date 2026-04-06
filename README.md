@@ -59,17 +59,18 @@ Double-click `xenus-dt1-decompiler.exe` (no arguments).
 1. Select the **input folder** containing `.DT1` files (e.g. `Xenus 2\CACHE\TEXTURES`).
 2. Select the **output folder** where decoded files will be saved (defaults to `out_tex` in the program folder).
 3. `VELoader.dll` is detected automatically if placed next to the exe.
-4. Choose the **output format**:
+4. *(Optional)* **Materials** — path to the game's `MATERIALS/` folder. Used for accurate normal map detection. Auto-detected from the game directory; set manually if not found automatically.
+5. Choose the **output format**:
    - **Auto** — detects the real format from the file's magic bytes *(recommended)*
    - **dds / tga / png / bmp / jpg** — converts the texture to the chosen format
-5. Click **START DECOMPILE** and watch the progress in the log window.
+6. Click **START DECOMPILE** and watch the progress in the log window.
 
 ![GUI interface](assets/img/GUI_interface.avif)
 
 ### Command Line
 
 ```
-xenus-dt1-decompiler.exe <input> [output_dir] [veloader_path] [format]
+xenus-dt1-decompiler.exe <input> [output_dir] [veloader_path] [format] [materials_dir]
 ```
 
 | Argument | Default | Description |
@@ -78,6 +79,7 @@ xenus-dt1-decompiler.exe <input> [output_dir] [veloader_path] [format]
 | `output_dir` | same folder as input | Folder to save decoded files |
 | `veloader_path` | auto-detected | Path to `VELoader.dll` |
 | `format` | auto | Output format: `dds`, `tga`, `bmp`, `png`, `jpg` |
+| `materials_dir` | auto-detected | Path to the game's `MATERIALS/` folder for normal map detection |
 
 **Examples:**
 
@@ -87,6 +89,9 @@ xenus-dt1-decompiler.exe "C:\Games\Xenus 2\CACHE\TEXTURES" ".\out"
 
 # Decode and convert to TGA
 xenus-dt1-decompiler.exe "C:\Games\Xenus 2\CACHE\TEXTURES" ".\out" "C:\Games\Xenus 2\VELoader.dll" tga
+
+# With explicit MATERIALS path (useful when VELoader is not in the game folder)
+xenus-dt1-decompiler.exe "C:\Games\Xenus 2\CACHE\TEXTURES" ".\out" "C:\Tools\VELoader.dll" tga "C:\Games\Xenus 2\MATERIALS"
 ```
 
 ---
@@ -149,6 +154,24 @@ To release modified textures as a mod, distribute the generated `.DT1` / `.DT2` 
 
 - All game textures are stored internally as **DDS** regardless of filename suffix (`_TGA`, `_BMP`, etc.). The tool detects the real format automatically.
 - Format conversion (tga/png/etc.) is handled by **[texconv](https://github.com/microsoft/DirectXTex)** (Microsoft DirectXTex, MIT license) — included in the release archive.
+- Normal map textures have their pixel channels remapped to standard RGBA on export. The tool identifies normal maps by scanning `.MAT` material files from the game's `MATERIALS/` folder (`Texture1_BUMP:` entries). Falls back to `_N`/`_N_` filename suffix if no `MATERIALS/` folder is found.
+
+---
+
+## Changelog
+
+### v2.1.2
+- **Normal map channel fix (regression fix):** v2.1.1 incorrectly remapped channels on ALL uncompressed DDS textures, breaking diffuse, HUD, SKY, and other textures. The fix is now applied only to textures identified as normal maps. Reported by [@evgeniy-mapper](https://github.com/evgeniy-mapper).
+- **MAT-based normal map detection:** Normal maps are now identified by reading `.MAT` material files (`Texture1_BUMP:` entries) from the game's `MATERIALS/` folder. Both `MATERIALS/` in the game root and auto-discovered locations are merged. Falls back to `_N`/`_N_` filename heuristic if no `MATERIALS/` folder is found.
+- **Materials folder field:** New optional field in GUI and CLI argument for specifying the `MATERIALS/` path manually (useful when VELoader is not stored inside the game folder).
+
+### v2.1.1
+- **Normal map pixel swap:** Pixel bytes are now reordered so normal maps render correctly in all viewers, not just tools that respect DDS channel masks.
+
+### v2.1.0
+- **Channel order fix:** Normal map DDS textures are now exported with corrected channel order. Reported by [@evgeniy-mapper](https://github.com/evgeniy-mapper).
+- **Version in title bar:** Application window now shows the version number.
+- **Supported games:** Confirmed support for Boiling Point: Road to Hell and The Precursors.
 
 ---
 
