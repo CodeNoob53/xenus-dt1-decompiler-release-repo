@@ -59,17 +59,18 @@ Haz doble clic en `xenus-dt1-decompiler.exe` (sin argumentos).
 1. Selecciona la **carpeta de entrada** con los archivos `.DT1` (por ejemplo, `Xenus 2\CACHE\TEXTURES`).
 2. Selecciona la **carpeta de salida** donde se guardarán los archivos decodificados (por defecto — `out_tex` en la carpeta del programa).
 3. `VELoader.dll` se detecta automáticamente si está junto al exe.
-4. Elige el **formato de salida**:
+4. *(Opcional)* **Materials** — ruta a la carpeta `MATERIALS/` del juego. Se usa para la detección precisa de normal maps. La carpeta debe estar desempaquetada previamente de los archivos `.grp` con **GrpUnpacker**. Se detecta automáticamente desde el directorio del juego; especifícala manualmente si no se encuentra.
+5. Elige el **formato de salida**:
    - **Auto** — detecta el formato real desde los magic bytes del archivo *(recomendado)*
    - **dds / tga / png / bmp / jpg** — convierte la textura al formato elegido
-5. Haz clic en **START DECOMPILE** y observa el progreso en la ventana de registro.
+6. Haz clic en **START DECOMPILE** y observa el progreso en la ventana de registro.
 
 ![Interfaz de la aplicación](assets/img/GUI_interface.avif)
 
 ### Línea de Comandos
 
 ```
-xenus-dt1-decompiler.exe <entrada> [carpeta_salida] [ruta_veloader] [formato]
+xenus-dt1-decompiler.exe <entrada> [carpeta_salida] [ruta_veloader] [formato] [carpeta_materials]
 ```
 
 | Argumento | Por defecto | Descripción |
@@ -78,6 +79,7 @@ xenus-dt1-decompiler.exe <entrada> [carpeta_salida] [ruta_veloader] [formato]
 | `output_dir` | misma carpeta que la entrada | Carpeta para guardar los archivos decodificados |
 | `veloader_path` | auto-detectado | Ruta a `VELoader.dll` |
 | `format` | auto | Formato de salida: `dds`, `tga`, `bmp`, `png`, `jpg` |
+| `materials_dir` | auto-detectado | Ruta a la carpeta `MATERIALS/` del juego para la detección de normal maps |
 
 **Ejemplos:**
 
@@ -87,6 +89,9 @@ xenus-dt1-decompiler.exe "C:\Games\Xenus 2\CACHE\TEXTURES" ".\out"
 
 # Decodificar y convertir a TGA
 xenus-dt1-decompiler.exe "C:\Games\Xenus 2\CACHE\TEXTURES" ".\out" "C:\Games\Xenus 2\VELoader.dll" tga
+
+# Con ruta explícita a MATERIALS (útil si VELoader no está en la carpeta del juego)
+xenus-dt1-decompiler.exe "C:\Games\Xenus 2\CACHE\TEXTURES" ".\out" "C:\Tools\VELoader.dll" tga "C:\Games\Xenus 2\MATERIALS"
 ```
 
 ---
@@ -149,6 +154,24 @@ Para publicar texturas modificadas como mod, distribuye los archivos `.DT1` / `.
 
 - Todas las texturas del juego se almacenan internamente como **DDS** independientemente del sufijo en el nombre del archivo (`_TGA`, `_BMP`, etc.). La herramienta detecta el formato real automáticamente.
 - La conversión de formato (tga/png/etc.) es realizada por **[texconv](https://github.com/microsoft/DirectXTex)** (Microsoft DirectXTex, licencia MIT) — incluido en el archivo de la versión.
+- Las texturas de normal map tienen sus canales de píxeles reordenados a RGBA estándar al exportar. La herramienta identifica los normal maps leyendo los archivos `.MAT` de la carpeta `MATERIALS/` del juego (entradas `Texture1_BUMP:`). La carpeta `MATERIALS/` debe estar desempaquetada previamente de los archivos `.grp` con **GrpUnpacker**. Si no se encuentra, se usa el sufijo `_N`/`_N_` como alternativa.
+
+---
+
+## Changelog
+
+### v2.1.2
+- **Corrección de regresión en normal maps:** v2.1.1 aplicaba incorrectamente el reordenamiento de canales a TODAS las texturas DDS sin comprimir, rompiendo texturas difusas, HUD, SKY y otras. La corrección ahora se aplica solo a los normal maps. Reportado por [@evgeniy-mapper](https://github.com/evgeniy-mapper).
+- **Detección de normal maps mediante archivos MAT:** Los normal maps se identifican leyendo entradas `Texture1_BUMP:` en archivos `.MAT` de la carpeta `MATERIALS/` del juego. Si no se encuentra, se usa el sufijo `_N`/`_N_` como alternativa.
+- **Campo Materials en GUI y CLI:** Nuevo campo opcional para especificar manualmente la ruta a `MATERIALS/` (útil cuando VELoader no está en la carpeta del juego).
+
+### v2.1.1
+- **Intercambio de bytes en normal maps:** Los bytes de píxeles ahora se reordenan para que los normal maps se rendericen correctamente en todos los visores.
+
+### v2.1.0
+- **Corrección del orden de canales:** Las texturas DDS de normal map ahora se exportan con el orden de canales correcto. Reportado por [@evgeniy-mapper](https://github.com/evgeniy-mapper).
+- **Versión en la barra de título:** La ventana de la aplicación ahora muestra el número de versión.
+- **Juegos compatibles:** Confirmado soporte para Boiling Point: Road to Hell y The Precursors.
 
 ---
 

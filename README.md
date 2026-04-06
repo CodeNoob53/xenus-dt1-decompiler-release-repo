@@ -59,7 +59,7 @@ Double-click `xenus-dt1-decompiler.exe` (no arguments).
 1. Select the **input folder** containing `.DT1` files (e.g. `Xenus 2\CACHE\TEXTURES`).
 2. Select the **output folder** where decoded files will be saved (defaults to `out_tex` in the program folder).
 3. `VELoader.dll` is detected automatically if placed next to the exe.
-4. *(Optional)* **Materials** — path to the game's `MATERIALS/` folder. Used for accurate normal map detection. Auto-detected from the game directory; set manually if not found automatically.
+4. *(Optional)* **Materials** — path to the game's `MATERIALS/` folder. Used for accurate normal map detection. Must be unpacked from the `.grp` archives first using **GrpUnpacker**. Auto-detected from the game directory; set manually if not found automatically.
 5. Choose the **output format**:
    - **Auto** — detects the real format from the file's magic bytes *(recommended)*
    - **dds / tga / png / bmp / jpg** — converts the texture to the chosen format
@@ -154,7 +154,7 @@ To release modified textures as a mod, distribute the generated `.DT1` / `.DT2` 
 
 - All game textures are stored internally as **DDS** regardless of filename suffix (`_TGA`, `_BMP`, etc.). The tool detects the real format automatically.
 - Format conversion (tga/png/etc.) is handled by **[texconv](https://github.com/microsoft/DirectXTex)** (Microsoft DirectXTex, MIT license) — included in the release archive.
-- Normal map textures have their pixel channels remapped to standard RGBA on export. The tool identifies normal maps by scanning `.MAT` material files from the game's `MATERIALS/` folder (`Texture1_BUMP:` entries). Falls back to `_N`/`_N_` filename suffix if no `MATERIALS/` folder is found.
+- Normal map textures have their pixel channels remapped to standard RGBA on export. The tool identifies normal maps by scanning `.MAT` material files from the game's `MATERIALS/` folder (`Texture1_BUMP:` entries). The `MATERIALS/` folder must be unpacked from the game's `.grp` archives using **GrpUnpacker** before use. Falls back to `_N`/`_N_` filename suffix if no `MATERIALS/` folder is found.
 
 ---
 
