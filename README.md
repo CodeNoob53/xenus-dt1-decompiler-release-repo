@@ -59,7 +59,7 @@ Double-click `xenus-dt1-decompiler.exe` (no arguments).
 1. Select the **input folder** containing `.DT1` files (e.g. `Xenus 2\CACHE\TEXTURES`).
 2. Select the **output folder** where decoded files will be saved (defaults to `out_tex` in the program folder).
 3. `VELoader.dll` is detected automatically if placed next to the exe.
-4. *(Optional)* **Materials** — path to the game's `MATERIALS/` folder. Used for accurate normal map detection. Must be unpacked from the `.grp` archives first using **GrpUnpacker**. Auto-detected from the game directory; set manually if not found automatically.
+4. *(Optional)* **Materials** — path to the unpacked `MATERIALS/` folder. Used for accurate normal map detection. Unpack it from the game's `.grp` archives using **GrpUnpacker**, then point the tool to it here. Without it, normal maps are detected by `_N`/`_N_` filename suffix only, which may miss some.
 5. Choose the **output format**:
    - **Auto** — detects the real format from the file's magic bytes *(recommended)*
    - **dds / tga / png / bmp / jpg** — converts the texture to the chosen format
@@ -79,7 +79,7 @@ xenus-dt1-decompiler.exe <input> [output_dir] [veloader_path] [format] [material
 | `output_dir` | same folder as input | Folder to save decoded files |
 | `veloader_path` | auto-detected | Path to `VELoader.dll` |
 | `format` | auto | Output format: `dds`, `tga`, `bmp`, `png`, `jpg` |
-| `materials_dir` | auto-detected | Path to the game's `MATERIALS/` folder for normal map detection |
+| `materials_dir` | none | Path to the unpacked `MATERIALS/` folder for normal map detection |
 
 **Examples:**
 

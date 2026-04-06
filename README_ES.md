@@ -59,7 +59,7 @@ Haz doble clic en `xenus-dt1-decompiler.exe` (sin argumentos).
 1. Selecciona la **carpeta de entrada** con los archivos `.DT1` (por ejemplo, `Xenus 2\CACHE\TEXTURES`).
 2. Selecciona la **carpeta de salida** donde se guardarán los archivos decodificados (por defecto — `out_tex` en la carpeta del programa).
 3. `VELoader.dll` se detecta automáticamente si está junto al exe.
-4. *(Opcional)* **Materials** — ruta a la carpeta `MATERIALS/` del juego. Se usa para la detección precisa de normal maps. La carpeta debe estar desempaquetada previamente de los archivos `.grp` con **GrpUnpacker**. Se detecta automáticamente desde el directorio del juego; especifícala manualmente si no se encuentra.
+4. *(Opcional)* **Materials** — ruta a la carpeta `MATERIALS/` desempaquetada. Se usa para la detección precisa de normal maps. Desempaquétala de los archivos `.grp` del juego con **GrpUnpacker** y luego indica aquí la ruta. Sin ella, los normal maps se detectan solo por el sufijo `_N`/`_N_` en el nombre del archivo, lo que puede omitir algunos.
 5. Elige el **formato de salida**:
    - **Auto** — detecta el formato real desde los magic bytes del archivo *(recomendado)*
    - **dds / tga / png / bmp / jpg** — convierte la textura al formato elegido
@@ -79,7 +79,7 @@ xenus-dt1-decompiler.exe <entrada> [carpeta_salida] [ruta_veloader] [formato] [c
 | `output_dir` | misma carpeta que la entrada | Carpeta para guardar los archivos decodificados |
 | `veloader_path` | auto-detectado | Ruta a `VELoader.dll` |
 | `format` | auto | Formato de salida: `dds`, `tga`, `bmp`, `png`, `jpg` |
-| `materials_dir` | auto-detectado | Ruta a la carpeta `MATERIALS/` del juego para la detección de normal maps |
+| `materials_dir` | ninguno | Ruta a la carpeta `MATERIALS/` desempaquetada para la detección de normal maps |
 
 **Ejemplos:**
 
