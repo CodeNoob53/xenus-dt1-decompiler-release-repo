@@ -2,183 +2,153 @@
 
 # Xenus DT1/DT2 Decompiler
 
+[![Release](https://img.shields.io/github/v/release/CodeNoob53/xenus-dt1-decompiler-release-repo)](../../releases/latest)
 [![Platform](https://img.shields.io/badge/platform-Windows-blue.svg)](https://www.microsoft.com/windows)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/CodeNoob53/xenus-dt1-decompiler/blob/main/LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-8.0-blueviolet.svg)](https://dotnet.microsoft.com/download/dotnet/8.0)
-[![Release](https://img.shields.io/github/v/release/CodeNoob53/xenus-dt1-decompiler)](../../releases/latest)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/CodeNoob53/xenus-dt1-decompiler/blob/main/LICENSE)
 [![Source Code](https://img.shields.io/badge/source_code-GitHub-181717.svg?logo=github)](https://github.com/CodeNoob53/xenus-dt1-decompiler)
 
-**[Українська версія (README_UA.md)](README_UA.md)** | **[Versión en español (README_ES.md)](README_ES.md)**
+**English** | [Українська](README_UA.md) | [Español](README_ES.md)
 
-A tool for extracting textures from **Xenus 2: White Gold**, **Boiling Point: Road to Hell**, and **The Precursors** game cache files (`*.DT1`).
-Saves decoded textures as `.dds`, `.tga`, `.png`, `.bmp`, or `.jpg` while preserving the original folder structure.
+Extracts textures from the cache of **Xenus 2: White Gold**, **Boiling Point: Road to Hell** and **The Precursors** (`*.DT1`) into `.tga`, `.dds`, `.png`, `.bmp` or `.jpg`, keeping the original folder structure.
+
+No game files or DLLs are needed: the decompressor is built into the tool.
 
 ---
 
-## Requirements
+## Quick start
 
-- **Windows** (x86 or x64)
-- **[.NET 8 Runtime](https://dotnet.microsoft.com/download/dotnet/8.0)** — required to run the application
-- **VELoader.dll** from the **Steam release** of Xenus 2: White Gold — place it next to `xenus-dt1-decompiler.exe`
-
-> **Note:** `VELoader.dll` from pirated copies of the game will not work (error 1114). You must use the DLL from the legitimate Steam release.
->
-> **Boiling Point / The Precursors Compatibility:** This tool can also decompile textures from **Boiling Point: Road to Hell** (Xenus 1) and **The Precursors** (Предтечі). To process Boiling Point textures, you **must** use the `VELoader.dll` from **Xenus 2**, **The Precursors**, or the **Vital Engine 3 SDK**. The DLL from Boiling Point itself will not work.
-
-> ⚠️ **Note on Antivirus Alerts:** This tool is open-source and safe. Some scanners (like Malwarebytes) may flag it as "Anomalous" because it is an unsigned executable that uses Native Interop to communicate with the game's `VELoader.dll`. You can verify the source code on [GitHub](https://github.com/CodeNoob53/xenus-dt1-decompiler).
+1. Install the **[.NET 8 Desktop Runtime (x86)](https://dotnet.microsoft.com/download/dotnet/8.0)** if you don't have it.
+2. Download the latest archive from **[Releases](../../releases/latest)** and extract it.
+3. Run `xenus-dt1-decompiler.exe`, pick the game's `CACHE\TEXTURES` folder and click **START DECOMPILE**.
 
 ---
 
 ## Getting the cache files
 
-The game stores its assets inside `.grp` archives. The `CACHE/` folder with `.DT1` files may not exist in your game directory until the archives are unpacked.
+The game keeps its assets in `.grp` archives. If the game folder has no `CACHE\TEXTURES` with `.DT1` files, unpack the archives with **GrpUnpacker**. It comes with the Vital Engine SDK and is also distributed separately; some antivirus programs flag it, which is common for old modding tools.
 
-To extract them, use **GrpUnpacker** — a tool that is typically included with the **Vital Engine SDK**. Run it against the game's `.grp` files to produce the `CACHE/` folder structure that this decompiler expects.
-
-> **Note:** GrpUnpacker is sometimes distributed as part of the Vital Engine SDK, and sometimes as a standalone tool. Some versions may be flagged by antivirus software — this is common for old game modding utilities. Use your own judgement when sourcing it.
-
----
-
-## Installation
-
-1. Download the latest release archive from the [Releases](https://github.com/CodeNoob53/xenus-dt1-decompiler/releases) page.
-2. Extract the archive — it will create a `xenus-dt1-decompiler-vX.X.X` folder.
-3. Copy `VELoader.dll` from your game folder into that folder, or specify the path to it in the GUI.
-4. Run `xenus-dt1-decompiler.exe`.
-
-> **Tip:** If `VELoader.dll` is placed in the same folder as the exe, you don't need to specify its path in the GUI — it will be detected automatically.
+Unpacking is also required to put edited textures back into the game (see [Modding](#modding-putting-textures-back-into-the-game)).
 
 ---
 
 ## Usage
 
-### GUI (Graphical Interface)
+### GUI
 
-Double-click `xenus-dt1-decompiler.exe` (no arguments).
+Run `xenus-dt1-decompiler.exe` without arguments.
 
-1. Select the **input folder** containing `.DT1` files (e.g. `Xenus 2\CACHE\TEXTURES`).
-2. Select the **output folder** where decoded files will be saved (defaults to `out_tex` in the program folder).
-3. `VELoader.dll` is detected automatically if placed next to the exe.
-4. *(Optional)* **Materials** — path to the unpacked `MATERIALS/` folder. Used for accurate normal map detection. Unpack it from the game's `.grp` archives using **GrpUnpacker**, then point the tool to it here. Without it, normal maps are detected by `_N`/`_N_` filename suffix only, which may miss some.
-5. Choose the **output format**:
-   - **Auto** — detects the real format from the file's magic bytes *(recommended)*
-   - **dds / tga / png / bmp / jpg** — converts the texture to the chosen format
-6. Click **START DECOMPILE** and watch the progress in the log window.
+1. **Input Path**: the folder with `.DT1` files, e.g. `Xenus 2\CACHE\TEXTURES`. You can also drop a folder onto the window. Subfolders are processed too.
+2. **Output Path**: where to save the textures (default: `out_tex`).
+3. **Output Format**: see [Formats](#formats).
+4. Click **START DECOMPILE** and follow the log.
 
-![GUI interface](assets/img/GUI_interface.avif)
+![GUI](assets/img/GUI_interface.png)
 
-### Command Line
+### Command line
 
 ```
-xenus-dt1-decompiler.exe <input> [output_dir] [veloader_path] [format] [materials_dir]
+xenus-dt1-decompiler.exe <input> [output_dir] [format]
 ```
 
 | Argument | Default | Description |
 |---|---|---|
-| `input` | — | Path to a `.DT1` file or a folder to scan recursively |
-| `output_dir` | same folder as input | Folder to save decoded files |
-| `veloader_path` | auto-detected | Path to `VELoader.dll` |
-| `format` | auto | Output format: `dds`, `tga`, `bmp`, `png`, `jpg` |
-| `materials_dir` | none | Path to the unpacked `MATERIALS/` folder for normal map detection |
-
-**Examples:**
+| `input` | — | A `.DT1` file, or a folder to scan recursively |
+| `output_dir` | input's folder | Where to save the textures |
+| `format` | auto | `tga`, `dds`, `png`, `bmp` or `jpg` |
 
 ```powershell
-# Decode all textures, auto format
 xenus-dt1-decompiler.exe "C:\Games\Xenus 2\CACHE\TEXTURES" ".\out"
-
-# Decode and convert to TGA
-xenus-dt1-decompiler.exe "C:\Games\Xenus 2\CACHE\TEXTURES" ".\out" "C:\Games\Xenus 2\VELoader.dll" tga
-
-# With explicit MATERIALS path (useful when VELoader is not in the game folder)
-xenus-dt1-decompiler.exe "C:\Games\Xenus 2\CACHE\TEXTURES" ".\out" "C:\Tools\VELoader.dll" tga "C:\Games\Xenus 2\MATERIALS"
+xenus-dt1-decompiler.exe "C:\Games\Xenus 2\CACHE\TEXTURES" ".\out" png
 ```
 
----
-
-## Repacking textures back into the game
-
-> Credits: this workflow was originally documented by **badmofo** on [RPGWatch Forums](https://rpgwatch.com/forum/threads/editing-the-in-game-textures.12577/).
-
-The Vital Engine 3 automatically re-compresses raw TGA files into `.DT1`/`.DT2` cache format when the game starts. No external packer tool is needed.
-
-> **Requirements:** The game directory must be fully unpacked (`.grp` archives extracted with GrpUnpacker, so that loose files exist in `CACHE\TEXTURES\`).
-
-### Replacing an existing texture
-
-Using `KURSOR_1_TGA.DT1` as an example:
-
-1. **Extract the original texture** using this decompiler tool in TGA or BMP format.
-   > **Note:** the original format is hinted by the filename suffix — e.g. `_TGA` in `KURSOR_1_TGA.DT1` indicates TGA.
-2. **Edit or replace the TGA with your own texture.**
-   > **Note on texture size:** HUD elements, some 2D LOD sprites, and particle effects are referenced by pixel coordinates (`Position`, `Size`) hardcoded in the UI layout XML files. Changing the image dimensions will shift those coordinates out of alignment within the texture. If you intentionally resize such a texture, you must also update the corresponding `Position` and `Size` values in the relevant XML file. **Otherwise keep the image dimensions identical to the original.**
-   >
-   > Example — compass background in `UI\PC\Planet\Scheme.xml`, referencing a 167×150 region at pixel offset (857, 290) inside `_hud.tga`:
-   > ```xml
-   > <Material MaterialID="_hud">
-   >     <Position x="857" y="290"/>
-   >     <Size x="167" y="150"/>
-   > </Material>
-   > ```
-   > If you upscale `_hud.tga` 2×, multiply all `Position` and `Size` values by 2.
-   >
-   > ![Example of broken HUD when texture is upscaled 2× without updating XML coordinates](assets/img/hud_example.avif)
-   > *HUD with `_hud.tga` upscaled 2× but XML coordinates left unchanged — elements are misaligned.*
-   >
-   > For other textures, the engine supports up to **2048×2048** pixels (larger will not compile); **1024×1024 is recommended** for stability.
-3. **Save the edited file as `.TGA`.** The decompiler already strips the engine suffix automatically — `KURSOR_1_TGA.DT1` is saved as `KURSOR_1.tga`, so use that name.
-4. **Delete** the original `.DT1` and any `.DT2`/`.DT3` files with the same base name from `CACHE\TEXTURES\HUD\`.
-5. **Place** your new `KURSOR_1.TGA` into `TEXTURES\HUD\` inside the game directory (create this folder — it does not exist by default):
-   ```
-   <game dir>\TEXTURES\HUD\KURSOR_1.TGA
-   ```
-6. **Launch the game.** The engine detects the unconverted TGA and re-compresses it, creating new cache files in `CACHE\TEXTURES\HUD\`:
-   ```
-   KURSOR_1_TGA.DT1
-   KURSOR_1_TGA.DT2
-   ```
-
-### Adding a new texture
-
-The process is the same as replacing — place a new `.TGA` file with a unique name into `TEXTURES\<subfolder>\` and launch the game to cache it. After caching, reference it by name in the relevant `.MAT` material file.
-
-> **Alternative:** SDK tools **RF2View** and **levedit2** can trigger re-compression without launching the full game, but they are difficult to run on modern systems.
-
-### Distributing a texture mod
-
-To release modified textures as a mod, distribute the generated `.DT1` / `.DT2` files from `CACHE\TEXTURES\`. When players place them in the matching subfolder of their own `CACHE\TEXTURES\` directory, those files take precedence over the packed `.grp` archives — no repacking required.
+`run_decompiler.bat` in the archive does the same with paths you edit once. Command lines from v2.x that pass `VELoader.dll` or a `MATERIALS` folder still work; those arguments are ignored.
 
 ---
 
-## Notes
+## Output
 
-- All game textures are stored internally as **DDS** regardless of filename suffix (`_TGA`, `_BMP`, etc.). The tool detects the real format automatically.
-- Format conversion (tga/png/etc.) is handled by **[texconv](https://github.com/microsoft/DirectXTex)** (Microsoft DirectXTex, MIT license) — included in the release archive.
-- Normal map textures have their pixel channels remapped to standard RGBA on export. The tool identifies normal maps by scanning `.MAT` material files from the game's `MATERIALS/` folder (`Texture1_BUMP:` entries). This is important because not all normal map textures follow a predictable naming convention — some have arbitrary names with no `_N` suffix, so filename-based detection alone is not reliable. For best results, unpack `MATERIALS/` from the game's `.grp` archives using **GrpUnpacker** before running the decompiler. If the folder is not found, the tool falls back to the `_N`/`_N_` filename suffix heuristic, which may miss some normal maps.
+### Formats
 
----
+| Format | Result |
+|---|---|
+| **Auto** *(recommended)* | The format the texture had before the engine cached it, taken from the file name: `KURSOR_1_TGA.DT1` → `KURSOR_1.tga`. This is the format the game expects when you put a texture back. |
+| `dds` | The texture exactly as stored in the cache (all textures are DDS inside). |
+| `tga` / `png` / `bmp` / `jpg` | Converted with the bundled [texconv](https://github.com/microsoft/DirectXTex) (Microsoft, MIT). |
 
-## Changelog
+If `texconv.exe` is missing from the program folder, compressed (DXT) textures stay `.dds`.
 
-### v2.1.2
-- **Normal map channel fix (regression fix):** v2.1.1 incorrectly remapped channels on ALL uncompressed DDS textures, breaking diffuse, HUD, SKY, and other textures. The fix is now applied only to textures identified as normal maps. Reported by [@evgeniy-mapper](https://github.com/evgeniy-mapper).
-- **MAT-based normal map detection:** Normal maps are now identified by reading `.MAT` material files (`Texture1_BUMP:` entries) from the game's `MATERIALS/` folder. Both `MATERIALS/` in the game root and auto-discovered locations are merged. Falls back to `_N`/`_N_` filename heuristic if no `MATERIALS/` folder is found.
-- **Materials folder field:** New optional field in GUI and CLI argument for specifying the `MATERIALS/` path manually (useful when VELoader is not stored inside the game folder).
+### What is fixed automatically
 
-### v2.1.1
-- **Normal map pixel swap:** Pixel bytes are now reordered so normal maps render correctly in all viewers, not just tools that respect DDS channel masks.
+- **Normal maps.** In the cache they are stored with swizzled channels and look green. The tool restores standard RGB and recognises them by their pixels, so names and material files don't matter.
+- **`SPECIAL\DXT1CTRL` and `SPECIAL\R5G6R5TABLE`** are engine lookup tables, not pictures. In Auto mode they are saved as the original `.dds`, which is the file to put back. In `tga`/`png`/`bmp` they become a lossless preview atlas: don't edit it or save it as `jpg`.
 
-### v2.1.0
-- **Channel order fix:** Normal map DDS textures are now exported with corrected channel order. Reported by [@evgeniy-mapper](https://github.com/evgeniy-mapper).
-- **Version in title bar:** Application window now shows the version number.
-- **Supported games:** Confirmed support for Boiling Point: Road to Hell and The Precursors.
+### Which files are processed
+
+Only `.DT1`. The engine also creates `.DT2` (a 64×64 copy) and, for normal maps, `.DT3` (a compressed copy); both are lower-quality duplicates of `.DT1`.
 
 ---
 
-## License
+## Modding: putting textures back into the game
 
-MIT — see [LICENSE](https://github.com/CodeNoob53/xenus-dt1-decompiler/blob/main/LICENSE)
+Vital Engine 3 compiles loose `.TGA` files into the cache when the game starts, so no packer is needed. The game must be unpacked with GrpUnpacker (see [Getting the cache files](#getting-the-cache-files)).
 
-## Source Code
+**Replacing a texture**, e.g. `CACHE\TEXTURES\HUD\KURSOR_1_TGA.DT1`:
 
-[github.com/CodeNoob53/xenus-dt1-decompiler](https://github.com/CodeNoob53/xenus-dt1-decompiler)
+1. Extract it in **Auto** mode → `KURSOR_1.tga`.
+2. Edit it. For HUD textures and other atlases, keep the original size (see *Texture size* below).
+3. Delete `KURSOR_1_TGA.DT1` and any `.DT2` / `.DT3` with the same name from `CACHE\TEXTURES\HUD\`.
+4. Put `KURSOR_1.tga` into `<game>\TEXTURES\HUD\`. Create the folder; it doesn't exist by default.
+5. Start the game. The engine creates new `KURSOR_1_TGA.DT1` / `.DT2` in `CACHE\TEXTURES\HUD\`.
+
+**Adding a texture**: the same, with a new name; then reference it in the relevant `.MAT` file.
+
+**Sharing a mod**: distribute the generated `.DT1` / `.DT2` files. Placed in the same subfolder of a player's `CACHE\TEXTURES\`, they take priority over the `.grp` archives.
+
+> **Texture size.** HUD textures, some 2D sprites and particles are atlases: the UI XML files address regions in them by pixel coordinates. For example, the compass background in `UI\PC\Planet\Scheme.xml` is a 167×150 region of `_hud.tga`:
+> ```xml
+> <Material MaterialID="_hud">
+>     <Position x="857" y="290"/>
+>     <Size x="167" y="150"/>
+> </Material>
+> ```
+> If you scale such a texture, scale every `Position` and `Size` that refers to it by the same factor; otherwise the HUD falls apart:
+>
+> ![HUD with _hud.tga upscaled 2× without updating the XML](assets/img/hud_example.avif)
+>
+> Other textures can be up to **2048×2048** (larger ones fail to compile); **1024×1024** is the safe choice.
+
+SDK tools **RF2View** and **levedit2** can also compile textures without starting the game, but they are hard to run on modern systems.
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---|---|
+| The program doesn't start | Install the [.NET 8 **Desktop** Runtime **x86**](https://dotnet.microsoft.com/download/dotnet/8.0). The x64 runtime alone is not enough. |
+| Antivirus warning (e.g. Malwarebytes "Anomalous") | The exe is open source but not code-signed, which some scanners flag. You can review and build the [source code](https://github.com/CodeNoob53/xenus-dt1-decompiler) yourself. |
+| `texconv.exe not found`, textures saved as `.dds` | Keep `texconv.exe` from the archive next to the exe. |
+| `[FAIL] resource.DT1 : method 7 (encrypted) is not supported` | `resource.DT1` is game data, not a texture; ignore it. |
+
+Found a bug? [Open an issue](https://github.com/CodeNoob53/xenus-dt1-decompiler/issues).
+
+---
+
+## What's new in v3.0.0
+
+- **`VELoader.dll` is no longer needed.** It works with any copy of the game.
+- **All normal maps are fixed.** Previously some were missed and stayed green. The **Materials** field is gone.
+- **`SPECIAL` lookup tables** are exported completely and losslessly.
+- Simpler command line: `<input> [output_dir] [format]`.
+
+All versions and their notes: **[Releases](../../releases)**.
+
+---
+
+## License and credits
+
+MIT, see [LICENSE](https://github.com/CodeNoob53/xenus-dt1-decompiler/blob/main/LICENSE). The bundled `texconv.exe` is part of [DirectXTex](https://github.com/microsoft/DirectXTex) (Microsoft, MIT).
+
+- **badmofo**: the texture repacking workflow ([RPGWatch Forums](https://rpgwatch.com/forum/threads/editing-the-in-game-textures.12577/)).
+- [**@evgeniy-mapper**](https://github.com/evgeniy-mapper): testing and bug reports on normal maps and lookup tables.
