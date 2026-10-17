@@ -19,7 +19,7 @@ No hay que instalar nada: .NET va dentro del ejecutable y no se necesitan archiv
 ## Inicio rápido
 
 1. Descarga el último archivo desde **[Releases](../../releases/latest)** y descomprímelo.
-2. Ejecuta `xenus-dt1-decompiler.exe`, elige la carpeta `CACHE\TEXTURES` del juego y pulsa **START DECOMPILE**.
+2. Ejecuta `xenus-dt1-decompiler.exe`, elige la carpeta `CACHE\TEXTURES` del juego y pulsa **Start**.
 
 ---
 
@@ -49,12 +49,16 @@ El juego descomprimido también es necesario para volver a meter texturas editad
 
 Ejecuta `xenus-dt1-decompiler.exe` sin argumentos.
 
-1. **Input Path**: la carpeta con archivos `.DT1`, p. ej. `Xenus 2\CACHE\TEXTURES`. También puedes arrastrar una carpeta a la ventana. Se procesan también las subcarpetas.
-2. **Output Path**: dónde guardar las texturas (por defecto `out_tex`).
-3. **Output Format**: ver [Formatos](#formatos).
-4. Pulsa **START DECOMPILE** y sigue el registro.
+1. **Input**: la carpeta con archivos `.DT1`, p. ej. `Xenus 2\CACHE\TEXTURES` (se incluyen las subcarpetas), o un solo archivo `.DT1`. También puedes arrastrar una carpeta o un archivo a la ventana.
+2. **Output**: dónde guardar las texturas. Por defecto, `out_tex` junto al ejecutable.
+3. **Format**: elígelo en el selector; pasa el cursor sobre una opción para ver detalles. Ver [Formatos](#formatos).
+4. Pulsa **Start**. La barra de progreso y el registro muestran cada archivo; **Cancel** detiene el proceso y **Open output folder** abre el resultado.
 
-![Interfaz](assets/img/GUI_interface.png)
+Las rutas y el formato se recuerdan entre usos. Hay dos temas, **Mono** y **White Gold**: elige uno con los círculos a la derecha de la fila Format. Ambos siguen el modo claro u oscuro de Windows.
+
+| Mono, modo oscuro | White Gold, modo claro |
+|---|---|
+| ![Tema Mono, modo oscuro](assets/img/GUI_mono_dark.png) | ![Tema White Gold, modo claro](assets/img/GUI_whitegold_light.png) |
 
 ### Línea de comandos
 
@@ -146,14 +150,19 @@ Las herramientas del SDK **RF2View** y **levedit2** también compilan texturas s
 
 ---
 
-## Novedades de la v3.0
+## Novedades
 
+**v3.1**
+- **Nueva interfaz:** un selector de formato en lugar de la lista desplegable, barra de progreso, botones **Cancel** y **Open output folder**, ajustes recordados y dos temas que siguen el modo claro u oscuro de Windows.
+- **Unas 3 veces más rápido:** los archivos se procesan en todos los núcleos (toda la caché de Xenus 2 en modo Auto: ~60 s en lugar de ~200 s).
+- **Registro más corto:** una línea por archivo y un resumen con la lista de archivos fallidos.
+- **No se pierden texturas:** `SKY00_BMP.DT1` y `SKY00_TGA.DT1` se sobrescribían entre sí en `dds` o en un formato forzado; ahora conservan el sufijo.
+
+**v3.0**
 - **Ya no hace falta `VELoader.dll`.** Funciona con cualquier copia del juego.
-- **Se corrigen todas las normal maps.** Antes algunas se pasaban por alto y quedaban verdes. Se eliminó el campo **Materials**.
+- **Se corrigen todas las normal maps.** Antes algunas se pasaban por alto y quedaban verdes.
 - **Las tablas `SPECIAL`** se exportan completas y sin pérdidas.
-- **v3.0.2:** las texturas de Boiling Point vuelven a funcionar (fallaban en 3.0.0–3.0.1).
-- **v3.0.1:** ya no hay que instalar nada; el ejecutable incluye .NET.
-- Línea de comandos más sencilla: `<entrada> [carpeta_salida] [formato]`.
+- No hay que instalar nada: el ejecutable incluye .NET (v3.0.1). Boiling Point vuelve a funcionar (v3.0.2).
 
 Todas las versiones y sus notas: **[Releases](../../releases)**.
 

@@ -19,7 +19,7 @@ Nothing to install: .NET is built into the exe, and no game files or DLLs are ne
 ## Quick start
 
 1. Download the latest archive from **[Releases](../../releases/latest)** and extract it.
-2. Run `xenus-dt1-decompiler.exe`, pick the game's `CACHE\TEXTURES` folder and click **START DECOMPILE**.
+2. Run `xenus-dt1-decompiler.exe`, pick the game's `CACHE\TEXTURES` folder and click **Start**.
 
 ---
 
@@ -49,12 +49,16 @@ Unpacking is also required to put edited textures back into the game (see [Moddi
 
 Run `xenus-dt1-decompiler.exe` without arguments.
 
-1. **Input Path**: the folder with `.DT1` files, e.g. `Xenus 2\CACHE\TEXTURES`. You can also drop a folder onto the window. Subfolders are processed too.
-2. **Output Path**: where to save the textures (default: `out_tex`).
-3. **Output Format**: see [Formats](#formats).
-4. Click **START DECOMPILE** and follow the log.
+1. **Input**: the folder with `.DT1` files, e.g. `Xenus 2\CACHE\TEXTURES` (subfolders are included), or a single `.DT1` file. You can also drop a folder or a file onto the window.
+2. **Output**: where to save the textures. Defaults to `out_tex` next to the exe.
+3. **Format**: pick one on the switch; hover over an option for details. See [Formats](#formats).
+4. Click **Start**. The progress bar and the log show each file; **Cancel** stops the run, and **Open output folder** opens the result.
 
-![GUI](assets/img/GUI_interface.png)
+The paths and the format are remembered between runs. There are two themes, **Mono** and **White Gold**: pick one with the round swatches at the right of the Format row. Both follow the Windows light or dark mode.
+
+| Mono, dark mode | White Gold, light mode |
+|---|---|
+| ![Mono theme, dark mode](assets/img/GUI_mono_dark.png) | ![White Gold theme, light mode](assets/img/GUI_whitegold_light.png) |
 
 ### Command line
 
@@ -146,14 +150,19 @@ Found a bug? [Open an issue](https://github.com/CodeNoob53/xenus-dt1-decompiler/
 
 ---
 
-## What's new in v3.0
+## What's new
 
+**v3.1**
+- **New interface:** a format switch instead of the dropdown, a progress bar, **Cancel** and **Open output folder** buttons, remembered settings, two themes that follow the Windows light or dark mode.
+- **About 3× faster:** files are processed on all CPU cores (the whole Xenus 2 cache in Auto mode: ~60 s instead of ~200 s).
+- **A shorter log:** one line per file, and a summary that lists the failed files.
+- **No lost textures:** `SKY00_BMP.DT1` and `SKY00_TGA.DT1` used to overwrite each other in `dds` or a forced format; they now keep their suffixes.
+
+**v3.0**
 - **`VELoader.dll` is no longer needed.** It works with any copy of the game.
-- **All normal maps are fixed.** Previously some were missed and stayed green. The **Materials** field is gone.
+- **All normal maps are fixed.** Previously some were missed and stayed green.
 - **`SPECIAL` lookup tables** are exported completely and losslessly.
-- **v3.0.2:** Boiling Point textures work again (they failed in 3.0.0–3.0.1).
-- **v3.0.1:** nothing to install any more; the exe now includes .NET.
-- Simpler command line: `<input> [output_dir] [format]`.
+- Nothing to install: the exe includes .NET (v3.0.1). Boiling Point works again (v3.0.2).
 
 All versions and their notes: **[Releases](../../releases)**.
 
