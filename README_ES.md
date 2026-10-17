@@ -139,6 +139,7 @@ Las herramientas del SDK **RF2View** y **levedit2** también compilan texturas s
 - **Ya no hace falta `VELoader.dll`.** Funciona con cualquier copia del juego.
 - **Se corrigen todas las normal maps.** Antes algunas se pasaban por alto y quedaban verdes. Se eliminó el campo **Materials**.
 - **Las tablas `SPECIAL`** se exportan completas y sin pérdidas.
+- **v3.0.2:** las texturas de Boiling Point vuelven a funcionar (fallaban en 3.0.0–3.0.1).
 - **v3.0.1:** ya no hay que instalar nada; el ejecutable incluye .NET.
 - Línea de comandos más sencilla: `<entrada> [carpeta_salida] [formato]`.
 

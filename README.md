@@ -139,6 +139,7 @@ Found a bug? [Open an issue](https://github.com/CodeNoob53/xenus-dt1-decompiler/
 - **`VELoader.dll` is no longer needed.** It works with any copy of the game.
 - **All normal maps are fixed.** Previously some were missed and stayed green. The **Materials** field is gone.
 - **`SPECIAL` lookup tables** are exported completely and losslessly.
+- **v3.0.2:** Boiling Point textures work again (they failed in 3.0.0–3.0.1).
 - **v3.0.1:** nothing to install any more; the exe now includes .NET.
 - Simpler command line: `<input> [output_dir] [format]`.
 
