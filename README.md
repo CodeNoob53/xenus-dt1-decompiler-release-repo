@@ -12,15 +12,14 @@
 
 Extracts textures from the cache of **Xenus 2: White Gold**, **Boiling Point: Road to Hell** and **The Precursors** (`*.DT1`) into `.tga`, `.dds`, `.png`, `.bmp` or `.jpg`, keeping the original folder structure.
 
-No game files or DLLs are needed: the decompressor is built into the tool.
+Nothing to install: .NET is built into the exe, and no game files or DLLs are needed. Requires 64-bit Windows 10 or 11.
 
 ---
 
 ## Quick start
 
-1. Install the **[.NET 8 Desktop Runtime (x86)](https://dotnet.microsoft.com/download/dotnet/8.0)** if you don't have it.
-2. Download the latest archive from **[Releases](../../releases/latest)** and extract it.
-3. Run `xenus-dt1-decompiler.exe`, pick the game's `CACHE\TEXTURES` folder and click **START DECOMPILE**.
+1. Download the latest archive from **[Releases](../../releases/latest)** and extract it.
+2. Run `xenus-dt1-decompiler.exe`, pick the game's `CACHE\TEXTURES` folder and click **START DECOMPILE**.
 
 ---
 
@@ -126,7 +125,7 @@ SDK tools **RF2View** and **levedit2** can also compile textures without startin
 
 | Problem | Solution |
 |---|---|
-| The program doesn't start | Install the [.NET 8 **Desktop** Runtime **x86**](https://dotnet.microsoft.com/download/dotnet/8.0). The x64 runtime alone is not enough. |
+| The program doesn't start | 64-bit Windows 10 or 11 is required. Versions before 3.0.1 also needed the .NET 8 Desktop Runtime x86; download the latest release instead. |
 | Antivirus warning (e.g. Malwarebytes "Anomalous") | The exe is open source but not code-signed, which some scanners flag. You can review and build the [source code](https://github.com/CodeNoob53/xenus-dt1-decompiler) yourself. |
 | `texconv.exe not found`, textures saved as `.dds` | Keep `texconv.exe` from the archive next to the exe. |
 | `[FAIL] resource.DT1 : method 7 (encrypted) is not supported` | `resource.DT1` is game data, not a texture; ignore it. |
@@ -135,11 +134,12 @@ Found a bug? [Open an issue](https://github.com/CodeNoob53/xenus-dt1-decompiler/
 
 ---
 
-## What's new in v3.0.0
+## What's new in v3.0
 
 - **`VELoader.dll` is no longer needed.** It works with any copy of the game.
 - **All normal maps are fixed.** Previously some were missed and stayed green. The **Materials** field is gone.
 - **`SPECIAL` lookup tables** are exported completely and losslessly.
+- **v3.0.1:** nothing to install any more; the exe now includes .NET.
 - Simpler command line: `<input> [output_dir] [format]`.
 
 All versions and their notes: **[Releases](../../releases)**.

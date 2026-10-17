@@ -12,15 +12,14 @@
 
 Extrae las texturas de la caché de **Xenus 2: White Gold**, **Boiling Point: Road to Hell** y **The Precursors** (`*.DT1`) a `.tga`, `.dds`, `.png`, `.bmp` o `.jpg`, conservando la estructura de carpetas original.
 
-No necesita archivos ni DLL del juego: el descompresor está integrado en la herramienta.
+No hay que instalar nada: .NET va dentro del ejecutable y no se necesitan archivos ni DLL del juego. Requiere Windows 10 u 11 de 64 bits.
 
 ---
 
 ## Inicio rápido
 
-1. Instala **[.NET 8 Desktop Runtime (x86)](https://dotnet.microsoft.com/download/dotnet/8.0)** si no lo tienes.
-2. Descarga el último archivo desde **[Releases](../../releases/latest)** y descomprímelo.
-3. Ejecuta `xenus-dt1-decompiler.exe`, elige la carpeta `CACHE\TEXTURES` del juego y pulsa **START DECOMPILE**.
+1. Descarga el último archivo desde **[Releases](../../releases/latest)** y descomprímelo.
+2. Ejecuta `xenus-dt1-decompiler.exe`, elige la carpeta `CACHE\TEXTURES` del juego y pulsa **START DECOMPILE**.
 
 ---
 
@@ -126,7 +125,7 @@ Las herramientas del SDK **RF2View** y **levedit2** también compilan texturas s
 
 | Problema | Solución |
 |---|---|
-| El programa no arranca | Instala [.NET 8 **Desktop** Runtime **x86**](https://dotnet.microsoft.com/download/dotnet/8.0). El de x64 por sí solo no basta. |
+| El programa no arranca | Se necesita Windows 10 u 11 de 64 bits. Las versiones anteriores a la 3.0.1 también necesitaban .NET 8 Desktop Runtime x86; descarga la última versión. |
 | Aviso del antivirus (p. ej. Malwarebytes «Anomalous») | El ejecutable es de código abierto pero no está firmado, y algunos escáneres lo marcan. Puedes revisar y compilar el [código fuente](https://github.com/CodeNoob53/xenus-dt1-decompiler) tú mismo. |
 | `texconv.exe not found`, texturas guardadas como `.dds` | Deja el `texconv.exe` del archivo junto al ejecutable. |
 | `[FAIL] resource.DT1 : method 7 (encrypted) is not supported` | `resource.DT1` son datos del juego, no una textura; puedes ignorarlo. |
@@ -135,11 +134,12 @@ Las herramientas del SDK **RF2View** y **levedit2** también compilan texturas s
 
 ---
 
-## Novedades de la v3.0.0
+## Novedades de la v3.0
 
 - **Ya no hace falta `VELoader.dll`.** Funciona con cualquier copia del juego.
 - **Se corrigen todas las normal maps.** Antes algunas se pasaban por alto y quedaban verdes. Se eliminó el campo **Materials**.
 - **Las tablas `SPECIAL`** se exportan completas y sin pérdidas.
+- **v3.0.1:** ya no hay que instalar nada; el ejecutable incluye .NET.
 - Línea de comandos más sencilla: `<entrada> [carpeta_salida] [formato]`.
 
 Todas las versiones y sus notas: **[Releases](../../releases)**.
