@@ -23,6 +23,18 @@ No hay que instalar nada: .NET va dentro del ejecutable y no se necesitan archiv
 
 ---
 
+## Juegos compatibles
+
+| Juego | Estado |
+|---|---|
+| Xenus 2: White Gold | ✅ Probado con toda la caché (3829 texturas) |
+| Boiling Point: Road to Hell | ✅ Probado con toda la caché (2603 texturas), desde la v3.0.2 |
+| The Precursors | ⚠️ Sin probar desde la v3.0 |
+
+Hasta la v2.x, las texturas las descomprimía el propio `VELoader.dll` del juego, así que la herramienta funcionaba con cualquier juego cuya DLL se le diera, incluido The Precursors. Desde la v3.0 usa su propio descompresor, reconstruido a partir de `VELoader.dll`; en Xenus 2 y Boiling Point su resultado es idéntico byte a byte al de la DLL. The Precursors usa el mismo motor, así que debería funcionar, pero todavía nadie lo ha comprobado. Si lo pruebas, comparte el resultado en [#4](https://github.com/CodeNoob53/xenus-dt1-decompiler/issues/4), funcione o no. Si falla, queda la [v2.2.1](https://github.com/CodeNoob53/xenus-dt1-decompiler/releases/tag/v2.2.1) con el `VELoader.dll` del juego.
+
+---
+
 ## Cómo obtener los archivos de caché
 
 El juego guarda sus recursos en archivos `.grp`. Si en la carpeta del juego no hay `CACHE\TEXTURES` con archivos `.DT1`, descomprime los archivos con **GrpUnpacker**. Viene con el Vital Engine SDK y también se distribuye por separado; algunos antivirus lo marcan, algo habitual en herramientas de modding antiguas.
